@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// this is the syntax of our prisma
+model User {
+  id       String    @id @default(uuid())
+  createAt DateTime  @default(now())
+  usename  String    @unique
+  password String
+  // you have to add this to compleete that makes the relationship complete.
+  Product  Product[]
+}
+
+// product model
+model Product {
+  id       String   @id @default(uuid())
+  createAt DateTime @default(now())
+
+  name        String   @db.VarChar(255)
+  belongsToId String
+  //the relation frp, belongsTo id refelece to id
+  belongsTO   User     @relation(fields: [belongsToId], references: [id])
+  updates     update[]
+}
+
+// update model
+
+enum UPDATE_STATUSES {
+  IN_PROGRESS
+  SHIPPED
+  DEPRECATED
+}
+
+model update {
+  id       String   @id @default(uuid())
+  createAt DateTime @default(now())
+  updateAt DateTime
+
+  title   String
+  body    String
+  status  UPDATE_STATUSES @default(IN_PROGRESS)
+  // meaning it is optional
+  version String?
+  assets  String?
+
+  //RELATIONSHIP
+  productId   String
+  product     Product       @relation(fields: [productId], references: [id])
+  updatePoint updatePoint[]
+}
+
+// updatePoit{}
+
+model updatePoint {
+  id         String   @id @default(uuid())
+  creactedAt DateTime @default(now())
+
+  updateAt DateTime
+
+  name        String @db.VarChar(255)
+  description String
+
+  updateId String
+  update   update @relation(fields: [updateId], references: [id])
+}
