@@ -14,7 +14,7 @@ datasource db {
 model User {
   id       String    @id @default(uuid())
   createAt DateTime  @default(now())
-  usename  String    @unique
+  username  String    @unique
   password String
   // you have to add this to compleete that makes the relationship complete.
   Product  Product[]

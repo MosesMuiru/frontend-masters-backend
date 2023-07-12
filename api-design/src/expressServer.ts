@@ -20,14 +20,15 @@ app.use((req,res,next) => {
 })
 
 
-
+//if anyone has to go through the router needs to check
 app.use("/api",protect,router)
-const PORT = 3005;
+const PORT = 3006;
 
 app.get("/",(res,req) => {
     res.send("welcome").status(200)
     
 })
 app.listen(PORT,() => {
+
     console.log("done")
 })
