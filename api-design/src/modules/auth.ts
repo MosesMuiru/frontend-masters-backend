@@ -2,6 +2,7 @@
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 
+
 export const comparePasswords = (passwords, hash) => {
     // this will compare if the passoword and the hash are the same ;
     
@@ -9,8 +10,18 @@ export const comparePasswords = (passwords, hash) => {
 }
 
 // salt = makes it hard to guess
-export const hashPassword = (password) => {
-    return bcrypt.hash(password,5)
+
+export const hashPassword = (password):any => {
+    console.log("this is the error")
+    let hash  = bcrypt.hash(password, 3434,function(err,hash:string) {
+        if(err) console.log("errror",err)
+       else return hash
+      
+        //store the hash in the db
+     
+    })
+    
+ 
 }
 
 // input - something about the user

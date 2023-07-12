@@ -8,21 +8,23 @@ dotenv.config()//this is to log the env variable
 
 // authorize
 import { protect } from "./modules/auth";
+import { createNewUser, signin } from "./handlers/user";
 
 // middleware
 app.use(morgan('dev'))//logs the req
 app.use(express.json())//allow json 
 app.use(express.urlencoded({extended:true}))//alow a client to decode and add 
-//my custom middleware
-app.use((req,res,next) => {
-    req.sh_secret = "doggy"
-    next()
-})
+
+
+
 
 
 //if anyone has to go through the router needs to check
 app.use("/api",protect,router)
-const PORT = 3006;
+//created the user
+app.post("/user",createNewUser)
+app.post("/signin",signin)
+const PORT = 3000;
 
 app.get("/",(res,req) => {
     res.send("welcome").status(200)
